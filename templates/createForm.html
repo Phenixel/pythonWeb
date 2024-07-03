@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Person</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('add_user') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.name.label(class="form-control-label") }}
+      {{ form.name(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.email.label(class="form-control-label") }}
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+</body>
+</html>
