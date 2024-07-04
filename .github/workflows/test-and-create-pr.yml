@@ -1,0 +1,26 @@
+name: Test and Create PR
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Test docker-compose
+        run: |
+          docker-compose -f docker-compose.yml config -q
+
+      - name: Create Pull Request
+        if: success()
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Deployment to Main"
+          pr_body: "Automated PR to deploy to main"
