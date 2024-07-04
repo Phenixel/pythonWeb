@@ -27,4 +27,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
+          ls
+          pwd
           ansible-playbook -i /ansible/inventory /ansible/launch.yml --private-key ~/.ssh/id_rsa
