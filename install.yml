@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Récupérer les informations du système
+      ansible.builtin.setup:
+
+    - name: Créer l'utilisateur phen sur Debian/Ubuntu
+      when: ansible_facts['os_family'] == 'Debian'
+      ansible.builtin.user:
+        name: phen
+        state: present
+        create_home: yes
+        shell: /bin/bash
+        password: "$1$ZlgrCKuW$rVAEjKCI6s.DfJ85mlDcl1"
+
+    - name: Créer l'utilisateur mon_user sur Amazon Linux
+      when: '''ID="amzn"'' in os_release.stdout'
+      user:
+        name: phen
+        state: present
+        create_home: yes
+        shell: /bin/bash
+        password: "$1$ZlgrCKuW$rVAEjKCI6s.DfJ85mlDcl1"
+
+    - name: Installer Docker sur Debian/Ubuntu
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+
+    - name: Démarrer et activer Docker
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Ajouter l'utilisateur au groupe docker
+      ansible.builtin.user:
+        name: "phen"
+        groups: docker
+        append: yes
