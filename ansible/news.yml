@@ -2,4 +2,13 @@
 - hosts: all
   become: yes
   tasks:
-    - name: 
+    - name: Pull the latest changes from the repository
+      git:
+        repo: 'https://github.com/Phenixel/pythonWeb.git'
+        dest: /home/phen/pythonWeb
+        update: yes
+
+    - name: Rebuild and restart docker services
+      command: docker-compose -f /home/phen/pythonWeb/docker-compose.yml up -d --build
+      args:
+        chdir: /home/phen/pythonWeb
