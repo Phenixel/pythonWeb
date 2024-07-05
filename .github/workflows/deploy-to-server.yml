@@ -22,11 +22,9 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook
         run: |
-          ls
-          pwd
           ansible-playbook -i ./ansible/inventory ./ansible/launch.yml --private-key ~/.ssh/id_rsa
